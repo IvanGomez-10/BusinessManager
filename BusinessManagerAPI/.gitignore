@@ -1,0 +1,6 @@
+# Ignorar el archivo de credenciales de Firebase
+Config/firebase-adminsdk.json
+
+# Otros archivos y carpetas que deseas ignorar
+/bin
+/obj

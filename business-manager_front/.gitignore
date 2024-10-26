@@ -1,0 +1,9 @@
+# Ignorar node_modules en cualquier parte del proyecto
+node_modules/
+
+# Ignorar carpetas de compilación comunes
+/bin
+/obj
+
+# Ignorar el archivo de credenciales de Firebase
+src/firebase.js

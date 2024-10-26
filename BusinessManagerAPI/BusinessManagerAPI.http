@@ -1,0 +1,6 @@
+@BusinessManagerAPI_HostAddress = http://localhost:5267
+
+GET {{BusinessManagerAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
