@@ -7,12 +7,12 @@ const Home = () => {
   const navigate = useNavigate();
 
   const goToTasks = () => {
-    // Aquí navegarás al componente Gestor de tareas
+    // Navegación al componente Gestor de tareas
     navigate('/tasks');
   };
 
   const goToEmployees = () => {
-    // Aquí navegarás al componente Gestión de empleados
+    // Navegación al componente Gestión de empleados
     navigate('/employees');
   };
 
