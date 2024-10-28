@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Modal, Table, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal, Table, Form, Pagination } from 'react-bootstrap';
 import './Empleados.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -9,6 +9,8 @@ const Empleados = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedEmpleado, setSelectedEmpleado] = useState(null);
   const [editableObservaciones, setEditableObservaciones] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const empleadosPerPage = 10;
 
   const [newEmpleado, setNewEmpleado] = useState({
     Id: '',
@@ -65,7 +67,7 @@ const Empleados = () => {
       const data = await response.json();
       
       if (data.success) {
-        setEmpleados([...empleados, { ...newEmpleado, id: data.id }]);
+        setEmpleados([...empleados, data.empleado]);
         handleCloseAddModal();
         setNewEmpleado({ Nombre: '', Edad: '', Posicion: '', Habilidades: '', Observaciones: '' });
       } else {
@@ -93,7 +95,6 @@ const Empleados = () => {
     }
   };
 
-  // Maneja la actualización de observaciones en la base de datos
   const handleUpdateObservaciones = async () => {
     try {
       const response = await fetch(`http://localhost:5267/api/Empleados/update/${selectedEmpleado.id}`, {
@@ -118,6 +119,13 @@ const Empleados = () => {
     }
   };
 
+  // Calcular el índice de empleados para la página actual
+  const indexOfLastEmpleado = currentPage * empleadosPerPage;
+  const indexOfFirstEmpleado = indexOfLastEmpleado - empleadosPerPage;
+  const currentEmpleados = empleados.slice(indexOfFirstEmpleado, indexOfLastEmpleado);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <Container className="empleados-container">
       <Row className="mb-4">
@@ -141,7 +149,7 @@ const Empleados = () => {
             </tr>
           </thead>
           <tbody>
-            {empleados.map((empleado) => (
+            {currentEmpleados.map((empleado) => (
               <tr key={empleado.id}>
                 <td>{empleado.nombre}</td>
                 <td>{empleado.edad}</td>
@@ -163,6 +171,15 @@ const Empleados = () => {
           </tbody>
         </Table>
       </Row>
+
+      {/* Paginación */}
+      <Pagination className="justify-content-center">
+        {[...Array(Math.ceil(empleados.length / empleadosPerPage)).keys()].map((number) => (
+          <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
+            {number + 1}
+          </Pagination.Item>
+        ))}
+      </Pagination>
 
       {/* Modal para mostrar detalles del empleado */}
       <Modal show={showDetailsModal} onHide={handleCloseDetailsModal}>

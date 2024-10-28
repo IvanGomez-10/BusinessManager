@@ -44,7 +44,7 @@ public class EmpleadosController : ControllerBase
         };
 
         await docRef.SetAsync(empleadoData);
-        return Ok(new { success = true, message = "Empleado añadido exitosamente." });
+        return Ok(new { success = true, message = "Empleado añadido exitosamente.", empleado  });
     }
     catch (Exception ex)
     {
