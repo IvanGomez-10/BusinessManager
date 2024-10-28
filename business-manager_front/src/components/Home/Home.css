@@ -1,37 +1,54 @@
 /* Home.css */
 
 .home-container {
-    text-align: center;
-  }
-  
-  .home-button {
-    display: block;
-    width: 100%;
-    max-width: 300px;
-    margin: 10px auto;
-    padding: 15px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    transition: background-color 0.3s;
-  }
-  
-  .home-button:first-of-type {
-    background-color: #007bff;
-    border: none;
-    color: white;
-  }
-  
-  .home-button:first-of-type:hover {
-    background-color: #0056b3;
-  }
-  
-  .home-button:last-of-type {
-    background-color: #6c757d;
-    border: none;
-    color: white;
-  }
-  
-  .home-button:last-of-type:hover {
-    background-color: #5a6268;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.home-title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.home-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.home-button {
+  width: 100%;
+  max-width: 250px;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Estilo del botón de empleados */
+.home-button:first-of-type {
+  background-color: #007bff;
+  color: white;
+}
+
+.home-button:first-of-type:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Estilo del botón de inventario */
+.home-button:last-of-type {
+  background-color: #6c757d;
+  color: white;
+}
+
+.home-button:last-of-type:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}

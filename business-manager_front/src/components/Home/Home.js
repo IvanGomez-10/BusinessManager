@@ -1,32 +1,30 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import './Home.css'; // Archivo CSS para estilos adicionales
+import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const goToTasks = () => {
-    // Navegación al componente Gestor de tareas
-    navigate('/tasks');
+  const goToStock = () => {
+    navigate('/inventario');
   };
 
-  const goToEmployees = () => {
-    // Navegación al componente Gestión de empleados
-    navigate('/employees');
+  const goToEmpleados = () => {
+    navigate('/empleados');
   };
 
   return (
-    <Container className="home-container d-flex align-items-center justify-content-center min-vh-100">
+    <Container className="home-container">
       <Row>
-        <Col className="text-center">
-          <h1>Bienvenido</h1>
-          <p>Selecciona una opción para continuar</p>
-          <Button variant="primary" className="home-button" onClick={goToTasks}>
-            Gestor de Tareas
+        <Col>
+          <h1 className="home-title">Bienvenido</h1>
+          <p className="home-subtitle">¿Qué deseas hacer?</p>
+          <Button variant="primary" className="home-button" onClick={goToEmpleados}>
+            Gestión de empleados
           </Button>
-          <Button variant="secondary" className="home-button" onClick={goToEmployees}>
-            Gestión de Empleados
+          <Button variant="secondary" className="home-button" onClick={goToStock}>
+            Gestor de inventario
           </Button>
         </Col>
       </Row>

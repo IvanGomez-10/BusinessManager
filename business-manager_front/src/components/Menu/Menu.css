@@ -1,0 +1,19 @@
+/* src/components/Header.css */
+.navbar {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .navbar-brand, .nav-link {
+    color: #ffffff !important;
+  }
+  .nav-link:hover {
+    color: #aaaaaa !important;
+  }
+  .logout-link {
+    color: #ff4d4d !important; /* Color rojo */
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .logout-link:hover {
+    color: #ff1a1a !important; /* Rojo más oscuro al pasar el cursor */
+  }
