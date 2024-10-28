@@ -1,31 +1,29 @@
-// src/components/Empleados.js
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Modal, Table, Form } from 'react-bootstrap';
 import './Empleados.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Empleados = () => {
   const [empleados, setEmpleados] = useState([]);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedEmpleado, setSelectedEmpleado] = useState(null);
+  const [editableObservaciones, setEditableObservaciones] = useState("");
+
   const [newEmpleado, setNewEmpleado] = useState({
-    nombre: '',
-    edad: '',
-    posicion: '',
-    habilidades: '',
-    observaciones: '',
+    Id: '',
+    Nombre: '',
+    Edad: '',
+    Posicion: '',
+    Habilidades: '',
+    Observaciones: '',
   });
 
-  const itemsPerPage = 15;
-  const [currentPage, setCurrentPage] = useState(1);
-
   useEffect(() => {
-    // Llamada a la API para cargar los empleados desde Firestore
     const fetchEmpleados = async () => {
       try {
         const response = await fetch('http://localhost:5267/api/Empleados');
         const data = await response.json();
-        console.log("Datos obtenidos del backend:", data);
         if (data.success) {
           setEmpleados(data.empleados);
         } else {
@@ -39,10 +37,9 @@ const Empleados = () => {
     fetchEmpleados();
   }, []);
 
-  const handlePageChange = (page) => setCurrentPage(page);
-
   const handleShowDetailsModal = (empleado) => {
     setSelectedEmpleado(empleado);
+    setEditableObservaciones(empleado.observaciones);
     setShowDetailsModal(true);
   };
 
@@ -51,13 +48,11 @@ const Empleados = () => {
   const handleShowAddModal = () => setShowAddModal(true);
   const handleCloseAddModal = () => setShowAddModal(false);
 
-  // Maneja el cambio en el formulario de nuevo empleado
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewEmpleado({ ...newEmpleado, [name]: value });
   };
 
-  // Llamada a la API para insertar un nuevo empleado
   const handleAddEmpleado = async () => {
     try {
       const response = await fetch('http://localhost:5267/api/Empleados/add', {
@@ -72,12 +67,54 @@ const Empleados = () => {
       if (data.success) {
         setEmpleados([...empleados, { ...newEmpleado, id: data.id }]);
         handleCloseAddModal();
-        setNewEmpleado({ nombre: '', edad: '', posicion: '', habilidades: '', observaciones: '' });
+        setNewEmpleado({ Nombre: '', Edad: '', Posicion: '', Habilidades: '', Observaciones: '' });
       } else {
         console.error(data.message);
       }
     } catch (error) {
       console.error("Error al añadir empleado:", error);
+    }
+  };
+
+  const handleDeleteEmpleado = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5267/api/Empleados/delete/${id}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setEmpleados(empleados.filter((empleado) => empleado.id !== id));
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error al eliminar empleado:", error);
+    }
+  };
+
+  // Maneja la actualización de observaciones en la base de datos
+  const handleUpdateObservaciones = async () => {
+    try {
+      const response = await fetch(`http://localhost:5267/api/Empleados/update/${selectedEmpleado.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ observaciones: editableObservaciones }),
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setEmpleados(empleados.map((empleado) =>
+          empleado.id === selectedEmpleado.id ? { ...empleado, observaciones: editableObservaciones } : empleado
+        ));
+        setShowDetailsModal(false);
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error al actualizar observaciones:", error);
     }
   };
 
@@ -100,21 +137,25 @@ const Empleados = () => {
               <th>Edad</th>
               <th>Puesto</th>
               <th>Aptitudes</th>
-              <th>Observaciones</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {empleados.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((empleado) => (
+            {empleados.map((empleado) => (
               <tr key={empleado.id}>
                 <td>{empleado.nombre}</td>
                 <td>{empleado.edad}</td>
                 <td>{empleado.posicion}</td>
                 <td>{empleado.habilidades}</td>
-                <td>{empleado.observaciones}</td>
                 <td>
                   <Button variant="info" onClick={() => handleShowDetailsModal(empleado)}>
                     Ver detalles
+                  </Button>{' '}
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteEmpleado(empleado.id)}
+                  >
+                    Eliminar
                   </Button>
                 </td>
               </tr>
@@ -133,14 +174,25 @@ const Empleados = () => {
             <>
               <p><strong>ID:</strong> {selectedEmpleado.id}</p>
               <p><strong>Nombre:</strong> {selectedEmpleado.nombre}</p>
-              <p><strong>Posición:</strong> {selectedEmpleado.posicion}</p>
               <p><strong>Edad:</strong> {selectedEmpleado.edad}</p>
+              <p><strong>Puesto:</strong> {selectedEmpleado.posicion}</p>
               <p><strong>Aptitudes:</strong> {selectedEmpleado.habilidades}</p>
-              <p><strong>Observaciones:</strong> {selectedEmpleado.observaciones}</p>
+              <Form.Group>
+                <Form.Label className="label-observaciones">Observaciones:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={editableObservaciones}
+                  onChange={(e) => setEditableObservaciones(e.target.value)}
+                />
+              </Form.Group>
             </>
           )}
         </Modal.Body>
         <Modal.Footer>
+          <Button variant="primary" onClick={handleUpdateObservaciones}>
+            Actualizar
+          </Button>
           <Button variant="secondary" onClick={handleCloseDetailsModal}>
             Cerrar
           </Button>
@@ -158,8 +210,8 @@ const Empleados = () => {
               <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
-                name="nombre"
-                value={newEmpleado.nombre}
+                name="Nombre"
+                value={newEmpleado.Nombre}
                 onChange={handleInputChange}
                 required
               />
@@ -168,8 +220,8 @@ const Empleados = () => {
               <Form.Label>Edad</Form.Label>
               <Form.Control
                 type="number"
-                name="edad"
-                value={newEmpleado.edad}
+                name="Edad"
+                value={newEmpleado.Edad}
                 onChange={handleInputChange}
                 required
               />
@@ -178,8 +230,8 @@ const Empleados = () => {
               <Form.Label>Puesto</Form.Label>
               <Form.Control
                 type="text"
-                name="posicion"
-                value={newEmpleado.posicion}
+                name="Posicion"
+                value={newEmpleado.Posicion}
                 onChange={handleInputChange}
                 required
               />
@@ -188,8 +240,8 @@ const Empleados = () => {
               <Form.Label>Aptitudes</Form.Label>
               <Form.Control
                 type="text"
-                name="habilidades"
-                value={newEmpleado.habilidades}
+                name="Habilidades"
+                value={newEmpleado.Habilidades}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -197,8 +249,8 @@ const Empleados = () => {
               <Form.Label>Observaciones</Form.Label>
               <Form.Control
                 as="textarea"
-                name="observaciones"
-                value={newEmpleado.observaciones}
+                name="Observaciones"
+                value={newEmpleado.Observaciones}
                 onChange={handleInputChange}
               />
             </Form.Group>

@@ -70,4 +70,47 @@ public class EmpleadosController : ControllerBase
         }
     }
 
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> DeleteEmpleado(string id)
+    {
+        try
+        {
+            DocumentReference docRef = _firestoreDb.Collection("empleados").Document(id);
+            await docRef.DeleteAsync();
+            return Ok(new { success = true, message = "Empleado eliminado exitosamente." });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { success = false, message = "Error al eliminar el empleado.", error = ex.Message });
+        }
+    }
+
+    [HttpPut("update/{id}")]
+    public async Task<IActionResult> UpdateEmpleado(string id, [FromBody] Empleado updatedEmpleado)
+    {
+        try
+        {
+            DocumentReference docRef = _firestoreDb.Collection("empleados").Document(id);
+            var snapshot = await docRef.GetSnapshotAsync();
+
+            if (!snapshot.Exists)
+            {
+                return NotFound(new { success = false, message = "Empleado no encontrado." });
+            }
+
+            // Solo actualiza las observaciones (u otros campos necesarios)
+            var updates = new Dictionary<string, object>
+            {
+                { "observaciones", updatedEmpleado.Observaciones }
+            };
+
+            await docRef.UpdateAsync(updates);
+            return Ok(new { success = true, message = "Observaciones actualizadas correctamente." });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { success = false, message = "Error al actualizar el empleado.", error = ex.Message });
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
-/* src/components/Employees.css */
-.employees-container {
-    margin-top: 20px;
+
+.empleados-container {
+    margin-top: 80px;
   }
   
   .table {
@@ -16,5 +16,9 @@
   
   .modal-body {
     padding: 20px;
+  }
+
+  .label-observaciones {
+    font-weight: bold;
   }
   
