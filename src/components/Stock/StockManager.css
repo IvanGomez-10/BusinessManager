@@ -1,0 +1,70 @@
+.stock-manager-container {
+    padding: 20px;
+    margin-top: 50px;
+  }
+  
+  .fixed-search {
+    position: sticky;
+    top: 20px;
+    z-index: 10;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
+  .product-card:hover {
+    transform: scale(1.05);
+  }
+  
+  h2 {
+    margin-bottom: 0px;
+  }
+  
+  button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .card-title {
+    text-align: center;
+  }
+  
+  .input-group {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .alert-info {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+  
+  .mb-4 {
+    margin-top: 80px;
+  }
+
+  table {
+    width: 100%;
+  }
+  
+  button {
+    width: 100px;
+  }
+  
+  .ml-2 {
+    margin-left: 10px;
+  }
+  
+  input {
+    width: 80%;
+  }
+  
+  
