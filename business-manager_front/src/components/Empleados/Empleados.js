@@ -132,7 +132,7 @@ const Empleados = () => {
         <Col className="text-center">
           <h2>Gestión de Empleados</h2>
           <Button variant="success" onClick={handleShowAddModal}>
-            Añadir Empleado
+            Añadir
           </Button>
         </Col>
       </Row>
@@ -157,7 +157,7 @@ const Empleados = () => {
                 <td>{empleado.habilidades}</td>
                 <td>
                   <Button variant="info" onClick={() => handleShowDetailsModal(empleado)}>
-                    Ver detalles
+                    Ver
                   </Button>{' '}
                   <Button
                     variant="danger"
@@ -219,7 +219,7 @@ const Empleados = () => {
       {/* Modal para añadir un nuevo empleado */}
       <Modal show={showAddModal} onHide={handleCloseAddModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Añadir Nuevo Empleado</Modal.Title>
+          <Modal.Title>Añadir</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

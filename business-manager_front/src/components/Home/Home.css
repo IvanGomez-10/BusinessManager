@@ -1,5 +1,6 @@
 /* Home.css */
 
+/* Contenedor principal */
 .home-container {
   display: flex;
   flex-direction: column;
@@ -7,48 +8,117 @@
   justify-content: center;
   text-align: center;
   min-height: 100vh;
+  background: linear-gradient(135deg, #ffffff, #ffffff);
+  color: rgb(0, 0, 0);
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
 }
 
+/* Título principal */
 .home-title {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* Subtítulo */
 .home-subtitle {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-  color: #555;
+  font-size: 1.4rem;
+  margin-bottom: 40px;
+  color: #000000;
 }
 
+/* Estilo de los botones */
 .home-button {
   width: 100%;
-  max-width: 250px;
-  margin: 10px 0;
-  padding: 12px;
-  font-size: 1.1rem;
+  max-width: 280px;
+  margin: 12px 0;
+  padding: 14px;
+  font-size: 1.2rem;
   font-weight: 600;
   border: none;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Estilo del botón de empleados */
+/* Botón Dashboard */
 .home-button:first-of-type {
   background-color: #007bff;
   color: white;
+  box-shadow: 0px 4px 12px rgba(0, 123, 255, 0.3);
 }
 
 .home-button:first-of-type:hover {
   background-color: #0056b3;
   transform: scale(1.05);
+  box-shadow: 0px 6px 16px rgba(0, 123, 255, 0.4);
 }
 
-/* Estilo del botón de inventario */
+/* Botón Gestión de empleados */
+.home-button:nth-of-type(2) {
+  background-color: #28a745;
+  color: white;
+  box-shadow: 0px 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.home-button:nth-of-type(2):hover {
+  background-color: #218838;
+  transform: scale(1.05);
+  box-shadow: 0px 6px 16px rgba(40, 167, 69, 0.4);
+}
+
+/* Botón Gestor de inventario */
+.home-button:nth-of-type(3) {
+  background-color: #ffc107;
+  color: white;
+  box-shadow: 0px 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.home-button:nth-of-type(3):hover {
+  background-color: #e0a800;
+  transform: scale(1.05);
+  box-shadow: 0px 6px 16px rgba(255, 193, 7, 0.4);
+}
+
+/* Botón Tienda */
 .home-button:last-of-type {
   background-color: #6c757d;
   color: white;
+  box-shadow: 0px 4px 12px rgba(108, 117, 125, 0.3);
 }
 
 .home-button:last-of-type:hover {
   background-color: #5a6268;
   transform: scale(1.05);
+  box-shadow: 0px 6px 16px rgba(108, 117, 125, 0.4);
+}
+
+/* Efecto general en hover */
+.home-button:hover {
+  cursor: pointer;
+  transform: translateY(-4px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Animación suave al entrar en pantalla */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-container {
+  animation: fadeIn 1s ease-in-out;
 }
